@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>añoranza gaucha</title>
+</head>
+<body>
+    <h1>Registrate</h1>
+
+    <form action="/students/create" method="POST">
+        <div>
+            <label for="">Nombres:</label>
+            <input type="text" name="name">
+        </div>
+
+        <div>
+            <label for="">Apellidos:</label>
+            <input type="text" name="last_name">
+        </div>
+
+        <div>
+            <label for="">e-mail:</label>
+            <input type="email" name="email">
+        </div>
+
+        <div>
+            <label for="">Fecha de nacimiento:</label>
+            <input type="date" name="birthdate">
+        </div>
+
+        <div>
+            <label for="">Edad:</label>
+            <input type="number" name="age">
+        </div>
+
+        <div>
+            <label for="">DNI:</label>
+            <input type="number" name="dni">
+        </div>
+
+        <div>
+            <label for="">Curso:</label>
+            <select name="courses">
+
+                <% for (let i = 0; i < courses.length; i++) {%>
+
+                <option value="<%=courses[i].id%>">
+
+                    <%=courses[i].name%>
+
+                </option>
+
+                <% } %>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit">Enviar</button>
+        </div>
+    
+        </div>
+    </form>
+</body>
+</html>
