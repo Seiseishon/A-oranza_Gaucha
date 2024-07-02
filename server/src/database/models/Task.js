@@ -19,9 +19,19 @@ module.exports = (sequelize, dataTypes)=>{
     }
 
 
-    const Task = sequelize.define(alias,cols,config)
+    const Task = sequelize.define(alias,cols,config);
 
-    Task.associate = function(models){
+    Task.associate = function(models) {
+        Task.belongsToMany(models.Subjects, {
+            as: "subject",
+            through: "subjects_tasks",
+            foreignKey: "id_task",
+            otherKey: "id_subject",
+            timestamps: false
+        })
+    }
+
+    /* Task.associate = function(models){
         Task.belongsToMany(models.Students,{
                 as: "students",
                 through: "students_tasks",
@@ -36,7 +46,7 @@ module.exports = (sequelize, dataTypes)=>{
             otherKey: "id_subject",
             timestamps: false
         })
-    }
+    } */
 
         return Task
 }

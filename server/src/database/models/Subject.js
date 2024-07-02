@@ -21,14 +21,24 @@ module.exports = (sequelize, dataTypes)=>{
 
     const Subject = sequelize.define(alias,cols,config)
 
-    Subject.associate = function(models){
-        Subject.belongsToMany(models.Courses,{
-                as: "courses",
-                through: "courses_subjects",
-                foreingKey: "id_subject",
-                otherKey: "id_course",
-                timestamps: false
-            })
+    Subject.associate = function(models) {
+        Subject.belongsToMany(models.Courses, {
+            as: "courses",
+            through: "courses_subjects",
+            foreignKey: "id_subject",
+            otherKey: "id_course",
+            timestamps: false
+        })
+
+        Subject.belongsToMany(models.Tasks, {
+            as: "tasks",
+            through: "subjects_tasks",
+            foreignKey: "id_subject",
+            otherKey: "id_task",
+            timestamps: false
+        })
+    }
+    /* 
             Subject.belongsToMany(models.Students,{
                 as: "students",
                 through: "students_subjects",
@@ -51,8 +61,8 @@ module.exports = (sequelize, dataTypes)=>{
                 timestamps: false
             })
 
-            
-    }
+             */
+    
 
         return Subject
 }

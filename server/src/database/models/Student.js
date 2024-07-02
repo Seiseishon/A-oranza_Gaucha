@@ -34,10 +34,6 @@ module.exports = (sequelize, dataTypes)=>{
         birthdate: {
             type: dataTypes.DATE,
             allowNulll: false
-        },
-        id_course:{
-            type: dataTypes.INTEGER,
-            allowNulll: false
         }
     }
 
@@ -49,12 +45,13 @@ module.exports = (sequelize, dataTypes)=>{
 
     const Student = sequelize.define(alias,cols,config)
 
-    Student.associate = function(models){
-        Student.belongsTo(models.Courses,{
-            as: "course",
-            foreingKey: "id_course"
+    Student.associate = (models) => {
+        Student.belongsTo(models.Courses, {
+            as: "courses",
+            foreignKey: "id_course"
         })
-        Student.belongsToMany(models.Subjects,{
+    }
+       /*  Student.belongsToMany(models.Subjects,{
             as: "subjects",
             through: "students_subjects",
             foreingKey: "id_student",
@@ -68,7 +65,7 @@ module.exports = (sequelize, dataTypes)=>{
             otherKey: "id_task",
             timestamps: false
         })
-    }
+    } */
 
     return Student
 }
