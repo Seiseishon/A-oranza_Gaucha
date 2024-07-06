@@ -49,7 +49,7 @@ module.exports = (sequelize, dataTypes)=>{
 
     const Student = sequelize.define(alias,cols,config)
 
-    /*Student.associate = function(models){
+    Student.associate = function(models){
         Student.belongsTo(models.Courses,{
             as: "course",
             foreignKey: "id_course"
@@ -68,7 +68,7 @@ module.exports = (sequelize, dataTypes)=>{
             otherKey: "id_task",
             timestamps: false
         })
-    }*/
+    }
 
     return Student
 }
