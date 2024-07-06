@@ -49,26 +49,26 @@ module.exports = (sequelize, dataTypes)=>{
 
     const Student = sequelize.define(alias,cols,config)
 
-    Student.associate = function(models){
+    /*Student.associate = function(models){
         Student.belongsTo(models.Courses,{
             as: "course",
-            foreingKey: "id_course"
+            foreignKey: "id_course"
         })
         Student.belongsToMany(models.Subjects,{
             as: "subjects",
             through: "students_subjects",
-            foreingKey: "id_student",
+            foreignKey: "id_student",
             otherKey: "id_subject",
             timestamps: false
         })
         Student.belongsToMany(models.Tasks,{
             as: "tasks",
             through: "students_tasks",
-            foreingKey: "id_student",
+            foreignKey: "id_student",
             otherKey: "id_task",
             timestamps: false
         })
-    }
+    }*/
 
     return Student
 }

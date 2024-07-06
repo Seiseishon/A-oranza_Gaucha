@@ -4,7 +4,7 @@ const router = express.Router();
 
 //Creacion
 
-router.get('/create', studentsControllers.create)
+router.get('/create', studentsControllers.studentAll)
 
 
 module.exports = router;
