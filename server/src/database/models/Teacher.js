@@ -52,14 +52,14 @@ module.exports = (sequelize, dataTypes)=>{
         Teacher.belongsToMany(models.Courses,{
             as: "courses",
             through: "teachers_courses",
-            foreingKey: "id_teacher",
+            foreignKey: "id_teacher",
             otherKey: "id_course",
             timestamps: false
         })
         Teacher.belongsToMany(models.Subjects,{
             as: "subjects",
             through: "teachers_subjects",
-            foreingKey: "id_teacher",
+            foreignKey: "id_teacher",
             otherKey: "id_subject",
             timestamps: false
         })
