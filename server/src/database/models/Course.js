@@ -23,7 +23,7 @@ module.exports = (sequelize, dataTypes)=>{
         Course.associate = function(models){
             Course.hasMany(models.Students,{
             as: "Students",
-            foreingKey: "id_course"})
+            foreignKey: "id_course"})
 
             Course.belongsToMany(models.Subjects,{
                 as: "subjects",
@@ -41,6 +41,5 @@ module.exports = (sequelize, dataTypes)=>{
             })
 
         }
-
         return Course
 }

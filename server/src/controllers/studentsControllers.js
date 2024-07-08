@@ -1,26 +1,23 @@
-const { Association } = require('sequelize');
-let db = require('../database/models')
+const sequelize = require('sequelize');
+let { Students } = require('../database/models')
 
 let studentsControllers = {
-    studentAll: async (req,res)=>{
-        try {
-            const data = await db.Students.findAll({
-                include: [{Association: "courses"}, {Association: "tasks"}]
-            })
-            
-            const datastudent = {
-                meta:{
-                    status: 200,
-                    URL: "/create"
+    create: async (req,res)=>{
+        try {    
+            const allData = await Students.findAll()
+            const dataStudent = {
+                meta: {
+                    status:200,
+                    URL: "/students/create"
                 },
-                data: data
+                data: allData
             }
 
-            res.status(200).json(datastudent)
-            
+            res.status(200).json(dataStudent)
+
+
         } catch (error) {
-            console.log(error);
-            res.status(500).json({error:"server error"})      
+            res.status(500).json({error: "server error"})
         }
     }
 }

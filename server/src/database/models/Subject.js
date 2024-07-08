@@ -21,7 +21,7 @@ module.exports = (sequelize, dataTypes)=>{
 
     const Subject = sequelize.define(alias,cols,config)
 
-    Subject.associate = function(models){
+        Subject.associate = function(models){
         Subject.belongsToMany(models.Courses,{
                 as: "courses",
                 through: "courses_subjects",

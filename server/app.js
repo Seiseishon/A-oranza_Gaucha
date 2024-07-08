@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const studentsRoutes = require("./src/routes/students.js")
+const teacherRoutes = require('./src/routes/teachers.js')
 const methodOverride = require('method-override');
 
 
@@ -23,3 +24,4 @@ app.set('view engine', 'ejs')
 
 //rutas
 app.use('/students', studentsRoutes)
+app.use('/teacher', teacherRoutes)
