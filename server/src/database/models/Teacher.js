@@ -1,5 +1,3 @@
-const Task = require("./Task")
-
 module.exports = (sequelize, dataTypes)=>{
     let alias = "Teachers"
 
@@ -54,14 +52,16 @@ module.exports = (sequelize, dataTypes)=>{
             through: "teachers_courses",
             foreignKey: "id_teacher",
             otherKey: "id_course",
-            timestamps: false
+            timestamps: false,
+            onDelete: 'CASCADE'
         })
         Teacher.belongsToMany(models.Subjects,{
             as: "subjects",
             through: "teachers_subjects",
             foreignKey: "id_teacher",
             otherKey: "id_subject",
-            timestamps: false
+            timestamps: false,
+            onDelete: 'CASCADE'
         })
     }
 

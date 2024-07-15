@@ -30,14 +30,16 @@ module.exports = (sequelize, dataTypes)=>{
                 through: "courses_subjects",
                 foreignKey: "id_course",
                 otherKey: "id_subject",
-                timestamps: false
+                timestamps: false,
+                onDelete: 'CASCADE'
             })
             Course.belongsToMany(models.Teachers,{
                 as: "Teachers",
                 through: "teachers_courses",
                 foreignKey: "id_course",
                 otherKey: "id_teacher",
-                timestamps: false
+                timestamps: false,
+                onDelete: 'CASCADE'
             })
 
         }

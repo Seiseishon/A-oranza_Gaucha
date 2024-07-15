@@ -9,35 +9,35 @@ module.exports = (sequelize, dataTypes)=>{
         },
         user:{
             type: dataTypes.STRING(150),
-            allowNulll: false
+            allowNull: false
         },
         password:{
             type: dataTypes.STRING(150),
-            allowNulll: false
+            allowNull: false
         },
         name: {
             type: dataTypes.STRING(100),
-            allowNulll: false
+            allowNull: false
         },
         last_name: {
             type: dataTypes.STRING(100),
-            allowNulll: false
+            allowNull: false
         },
         email: {
             type: dataTypes.STRING(255),
-            allowNulll: false
+            allowNull: false
         },
         dni: {
             type: dataTypes.INTEGER,
-            allowNulll: false
+            allowNull: false
         },
         birthdate: {
             type: dataTypes.DATE,
-            allowNulll: false
+            allowNull: false
         },
         id_course:{
             type: dataTypes.INTEGER,
-            allowNulll: false
+            allowNull: false
         }
     }
 
@@ -59,14 +59,16 @@ module.exports = (sequelize, dataTypes)=>{
             through: "students_subjects",
             foreignKey: "id_student",
             otherKey: "id_subject",
-            timestamps: false
+            timestamps: false,
+            onDelete: 'CASCADE'
         })
         Student.belongsToMany(models.Tasks,{
             as: "tasks",
             through: "students_tasks",
             foreignKey: "id_student",
             otherKey: "id_task",
-            timestamps: false
+            timestamps: false,
+            onDelete: 'CASCADE'
         })
     }
 
