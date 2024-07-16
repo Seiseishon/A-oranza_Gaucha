@@ -7,10 +7,13 @@ const router = express.Router();
 router.get('/', studentsControllers.list)
 
 //Busca a un solo estudiante
-router.get('/detail/:id', studentsControllers.search)
+router.get('/search', studentsControllers.search)
 
 //Crea a un estudiante
 router.post('/create', studentsControllers.create)
+
+//Actualizacion de un estudiante
+router.put('/update/:id', studentsControllers.update)
 
 //Elimina a un estudiante
 router.delete('/delete/:id', studentsControllers.delete)

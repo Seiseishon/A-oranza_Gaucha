@@ -1,5 +1,7 @@
 const sequelize = require('sequelize');
 const { Teachers } = require('../database/models');
+const { Op } = require('sequelize');
+const { update } = require('./studentsControllers');
 
 const teacherscontrollers = {
     list: async (req, res)=>{
@@ -25,13 +27,21 @@ const teacherscontrollers = {
     },
     search: async(req,res)=>{
         try {
-             const teacherSearch = await Teachers.findByPk(req.params.id)
+            const keyword = req.query.keyword || '';
+
+             const teacherSearch = await Teachers.findAll({
+                where:{
+                    name: {
+                        [Op.like]: '%' + keyword + '%'
+                    }
+                }
+             })
 
         const dataTeacher = {
             meta: {
                 status: 200,
-                URL: '/teacher/detail/:id',
-                message: teacherSearch != null? 'Profesor encontrado': 'El profesor que busca no existe'
+                URL: '/teacher/search',
+                message: teacherSearch.length != 0?  teacherSearch.length + ' Profe(s) encontrado(s)': 'El profesor que busca no existe'
             },
             data: teacherSearch
         }
@@ -85,8 +95,72 @@ const teacherscontrollers = {
             console.error("Error creating teacher:", error);
             return res.status(500).json({ error: 'server error' });
         }
-    }
-    ,
+    },
+    update: async (req,res)=>{
+        try {
+            const id = req.params.id;
+            const updateData = req.body;
+
+            const update = await Teachers.update(updateData,{
+                where: {
+                    id: id
+                }
+            })
+
+            if(update){
+            const teacherUpdate = await Teachers.findByPk(id)
+
+            const dataTeacher ={
+                meta: {
+                    status: 200,
+                    URL: '/teacher/update/:id',
+                    message: 'Actualizacion exitosa'
+                },
+                data: teacherUpdate
+            }
+
+            return res.status(200).json(dataTeacher)
+
+            }
+        } catch (error) {
+            console.error('Error updating:', error)
+            res.status(500).json({error: "Server error"})
+        }
+    },
+
+    partialUpdate: async(req,res)=>{
+        try {
+            const id = req.params.id;
+            const updateData = req.body
+
+            const update = await Teachers.update(updateData,{
+                where:{
+                    id: id
+                }
+            })
+
+            if(update){
+                const teacherPartialUpdate = await Teachers.findByPk(id)
+
+                const dataTeacher = {
+                    meta: {
+                        status: 200,
+                        URL: `/teacher/update/:id`,
+                        message: 'Profesor actualizado parcialmente con exito'
+                    },
+                    data: teacherPartialUpdate
+                }
+
+                return res.status(200).json(dataTeacher)
+
+            }
+
+        } catch (error) {
+            console.error('Error updating:', error)
+            res.status(500).json({error: "Server error"})
+        }
+    },
+
     delete: async(req,res)=>{
         try {
              const teacherDelete = await Teachers.destroy({

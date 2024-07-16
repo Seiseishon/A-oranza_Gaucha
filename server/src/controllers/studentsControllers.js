@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 let { Students } = require('../database/models')
-
+const { Op } = require('sequelize')
 const studentsControllers = {
     list: async(req,res)=>{
         try {
@@ -25,25 +25,30 @@ const studentsControllers = {
         }
     },
     
-    search: async(req, res)=>{
+    search: async (req, res) => {
         try {
-
-            const studentsSearch = await Students.findByPk(req.params.id)
-
+            const keyword = req.query.keyword || ''; // Maneja el caso donde no hay keyword
+            const studentsSearch = await Students.findAll({
+                where: {
+                    name: {
+                        [Op.like]: '%' + keyword + '%'
+                    }
+                }
+            });
+    
             const dataStudents = {
                 meta: {
                     status: 200,
-                    URL: '/students/detail/:id',
-                    message: studentsSearch != null? 'Alumno encontrado': 'El alumno que quiere buscar no existe'
+                    URL: '/students/search',
+                    message: studentsSearch.length > 0 ? studentsSearch.length +' Alumno(s) encontrado(s)' : 'El alumno que quiere buscar no existe'
                 },
                 data: studentsSearch
-            }
-
-            return res.status(200).json(dataStudents)
-
+            };
+    
+            return res.status(200).json(dataStudents);
         } catch (error) {
-            console.error('Error search:', error)
-            res.status(500).json({error: "Server error"})
+            console.error('Error search:', error);
+            return res.status(500).json({ error: "Server error" });
         }
     },
 
@@ -92,6 +97,37 @@ const studentsControllers = {
         } catch (error) {
             console.error('Error creating student:', error)
             res.status(500).json({error: 'Server error'})
+        }
+    },
+
+    update: async(req,res)=>{
+        try {
+            const id = req.params.id
+            const updateData = req.body
+            const update = await Students.update(updateData,{
+                where: {
+                    id: id
+                }
+            })
+            if(update){
+
+                const studentUpdate = await Students.findByPk(id)
+
+                 const dataStudents = {
+                meta: {
+                    status: 200,
+                    URL: '/students/update/:id',
+                },
+                data: studentUpdate
+            }
+
+            return res.status(200).json(dataStudents)
+
+            }
+           
+        } catch (error) {
+            console.error('Error updating: ', error)
+            res.status(500).json({ error: "Server error" })
         }
     },
 
