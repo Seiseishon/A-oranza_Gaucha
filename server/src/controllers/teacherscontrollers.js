@@ -61,7 +61,8 @@ const teacherscontrollers = {
             email,
             dni,
             birthdate,
-            courses // Suponiendo que los cursos a asociar están en el body de la solicitud
+            courses, // Suponiendo que los cursos a asociar están en el body de la solicitud
+            subjects
         } = req.body;
     
         try {
@@ -79,6 +80,9 @@ const teacherscontrollers = {
             // Si hay cursos asociados, asociarlos al profesor
             if (courses && courses.length > 0) {
                 await teacherCreate.setCourses(courses); // Utiliza el método setCourses generado por Sequelize para asociar los cursos
+            }
+            if(subjects && subjects.length > 0){
+                await teacherCreate.setSubjects(subjects)
             }
     
             // Preparar la respuesta JSON

@@ -65,7 +65,7 @@ const studentsControllers = {
                 birthdate,
                 id_course,
                 subjects,
-                id_task
+                tasks
             } = req.body
 
             const studentsCreate = await Students.create({
@@ -81,6 +81,9 @@ const studentsControllers = {
 
             if (subjects && subjects.length > 0) {
                 await studentsCreate.setSubjects(subjects); // Utiliza el método setCourses generado por Sequelize para asociar los cursos
+            }
+            if (tasks && tasks.length > 0) {
+                await studentsCreate.setTasks(tasks);
             }
 
             const dataStudents = {
