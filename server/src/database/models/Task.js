@@ -40,16 +40,7 @@ module.exports = (sequelize, dataTypes)=>{
                 otherKey: "id_student",
                 timestamps: false,
                 onDelete: 'CASCADE'
-        })
-        Task.belongsToMany(models.Subjects,{
-            as: "subjects",
-            through: "subjects_tasks",
-            foreignKey: "id_task",
-            otherKey: "id_subject",
-            timestamps: false,
-            onDelete: 'CASCADE'
-        })
-    } 
+        })}
 
         return Task
 }
