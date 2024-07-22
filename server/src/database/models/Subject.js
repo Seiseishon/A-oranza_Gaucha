@@ -21,48 +21,40 @@ module.exports = (sequelize, dataTypes)=>{
 
     const Subject = sequelize.define(alias,cols,config)
 
-    Subject.associate = function(models) {
-        Subject.belongsToMany(models.Courses, {
-            as: "courses",
-            through: "courses_subjects",
-            foreignKey: "id_subject",
-            otherKey: "id_course",
-            timestamps: false
-        })
-
-        Subject.belongsToMany(models.Tasks, {
-            as: "tasks",
-            through: "subjects_tasks",
-            foreignKey: "id_subject",
-            otherKey: "id_task",
-            timestamps: false
-        })
-    }
-    /* 
+    Subject.associate = function(models){
+        Subject.belongsToMany(models.Courses,{
+                as: "courses",
+                through: "courses_subjects",
+                foreingKey: "id_subject",
+                otherKey: "id_course",
+                timestamps: false,
+                onDelete: 'CASCADE'
+            })
             Subject.belongsToMany(models.Students,{
                 as: "students",
                 through: "students_subjects",
-                foreingKey: "id_subject",
+                foreignKey: "id_subject",
                 otherKey: "id_student",
-                timestamps: false
+                timestamps: false,
+                onDelete: 'CASCADE'
             })
             Subject.belongsToMany(models.Tasks,{
                 as: "tasks",
                 through: "subjects_tasks",
-                foreingKey: "id_subject",
+                foreignKey: "id_subject",
                 otherKey: "id_task",
-                timestamps: false
+                timestamps: false,
+                onDelete: 'CASCADE'
             })
             Subject.belongsToMany(models.Teachers,{
                 as: "teachers",
                 through: "teachers_subjects",
-                foreingKey: "id_subject",
+                foreignKey: "id_subject",
                 otherKey: "id_teacher",
-                timestamps: false
+                timestamps: false,
+                onDelete: 'CASCADE'
             })
-
-             */
     
 
         return Subject
-}
+}}

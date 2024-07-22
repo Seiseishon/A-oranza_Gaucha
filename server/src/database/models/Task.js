@@ -27,26 +27,29 @@ module.exports = (sequelize, dataTypes)=>{
             through: "subjects_tasks",
             foreignKey: "id_task",
             otherKey: "id_subject",
-            timestamps: false
+            timestamps: false,
+            onDelete: 'CASCADE'
         })
     }
 
-    /* Task.associate = function(models){
+        Task.associate = function(models){
         Task.belongsToMany(models.Students,{
                 as: "students",
                 through: "students_tasks",
-                foreingKey: "id_task",
+                foreignKey: "id_task",
                 otherKey: "id_student",
-                timestamps: false
+                timestamps: false,
+                onDelete: 'CASCADE'
         })
         Task.belongsToMany(models.Subjects,{
             as: "subjects",
             through: "subjects_tasks",
-            foreingKey: "id_task",
+            foreignKey: "id_task",
             otherKey: "id_subject",
-            timestamps: false
+            timestamps: false,
+            onDelete: 'CASCADE'
         })
-    } */
+    } 
 
         return Task
 }
