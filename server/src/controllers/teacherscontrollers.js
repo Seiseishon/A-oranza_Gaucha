@@ -7,7 +7,8 @@ const teacherscontrollers = {
     list: async (req, res)=>{
         try {
             const teacher = await Teachers.findAll({
-                include: [{association: 'subjects'}, {association: 'courses'}]
+                include: [{ association: 'subjects' }, 
+                          { association: 'courses' }]
             })
 
             const dataTeacher = {

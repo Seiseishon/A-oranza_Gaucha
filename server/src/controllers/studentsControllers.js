@@ -5,7 +5,8 @@ const studentsControllers = {
     list: async(req,res)=>{
         try {
             const studentsList = await Students.findAll({
-                include: [{ association: 'subjects' }, { association: 'tasks' }]
+                include: [{ association: 'subjects' }, 
+                          { association: 'tasks' }]
             })
 
             const dataStudents = {

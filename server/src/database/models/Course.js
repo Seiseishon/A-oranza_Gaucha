@@ -42,7 +42,7 @@ module.exports = (sequelize, dataTypes) => {
                 onDelete: 'CASCADE'
             })
 
-        }
+        
 
         return Course
-}
+}}

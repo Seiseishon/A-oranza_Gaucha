@@ -2,9 +2,13 @@ const sequelize = require('sequelize');
 const { Courses } = require('../database/models');
 
 module.exports = {
-    allCourses: async (req, res) => {
+    list: async (req, res) => {
         try {
-            const data = await Courses.findAll();
+            const includes = {
+                include: [ { association: "students" }, 
+                           { association: "subjects" } ]
+            }
+            const data = await Courses.findAll(includes);
 
             const dataCourses = {
                 meta: {
@@ -26,11 +30,15 @@ module.exports = {
         }
     },
 
-    findCourse: async (req, res) => {
+    search: async (req, res) => {
         try {
-            const data = await Courses.findByPk(req.params.id, {
-                include: [ { association: "students" }, { association: "subjects"} ]
-            });
+
+            const includes = {
+                include: [ { association: "students" }, 
+                           { association: "subjects" } ]
+            }
+
+            const data = await Courses.findByPk(req.params.id, includes);
 
             const dataCourse = {
                 meta: {

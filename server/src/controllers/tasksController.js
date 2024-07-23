@@ -5,7 +5,8 @@ module.exports = {
     allTasks: async (req, res) => {
         try {
             const data = await Tasks.findAll({
-                include: [{ association: "subject" }]
+                include: [{ association: "subject" }, 
+                          { association: 'students' }]
             });
 
             const dataTasks = data.map((task) => {

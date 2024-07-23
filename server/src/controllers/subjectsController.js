@@ -5,7 +5,10 @@ module.exports = {
     allSubjects: async (req, res) => {
         try {
             const data = await Subjects.findAll({
-                include: [{association: "courses"}]
+                include: [{ association: "courses" }, 
+                          { association: 'students' }, 
+                          { association: 'tasks' }, 
+                          { association: 'teachers' }]
             });
 
             const dataSubjects = {
