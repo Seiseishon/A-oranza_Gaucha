@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
-let { Students } = require('../database/models')
-const { Op } = require('sequelize')
+let { Students } = require('../database/models');
+const { Op } = require('sequelize');
+
 const studentsControllers = {
     list: async(req,res)=>{
         try {
@@ -22,14 +23,19 @@ const studentsControllers = {
 
         } catch (error) {
             console.error('Error list:', error)
-            res.status(500).json({error: "Server error"})
+            return res.status(500).json({error: "Server error"})
         }
     },
     
-    search: async (req, res) => {
+    searchByName: async (req, res) => {
         try {
+            const includes = {
+                include: [ { association: "subjects" },
+                           { association: 'tasks' }
+                         ]};
+
             const keyword = req.query.keyword || ''; // Maneja el caso donde no hay keyword
-            const studentsSearch = await Students.findAll({
+            const studentsByName = await Students.findAll({
                 where: {
                     name: {
                         [Op.like]: '%' + keyword + '%'
@@ -41,15 +47,44 @@ const studentsControllers = {
                 meta: {
                     status: 200,
                     URL: '/students/search',
-                    message: studentsSearch.length > 0 ? studentsSearch.length +' Alumno(s) encontrado(s)' : 'El alumno que quiere buscar no existe'
+                    message: studentsByName.length > 0 ? studentsByName.length +' Alumno(s) encontrado(s)' : 'El alumno que quiere buscar no existe'
                 },
-                data: studentsSearch
+                data: studentsByName
             };
     
             return res.status(200).json(dataStudents);
         } catch (error) {
             console.error('Error search:', error);
             return res.status(500).json({ error: "Server error" });
+        }
+    },
+
+    searchByPk: async (req, res) => {
+        try {
+            const includes = {
+                include: [ { association: "subjects" },
+                           { association: 'tasks' }
+                         ]}
+
+            const id = req.params.id
+
+            const studentByPk = await Students.findByPk(id,includes);
+            
+            const dataStudents = {
+                meta: {
+                    status: 200,
+                    URL: `/student/search/:id`,
+                    message: studentByPk != null? 'Alumno encontrado' : 'El Alumno no existe'
+                },
+
+                data: studentByPk
+            }
+
+           return res.status(200).json(dataStudents)   
+            
+        }catch(error){
+            console.error(error);
+           return res.status(500).json( { error: 'Server error' } );
         }
     },
 
@@ -89,18 +124,17 @@ const studentsControllers = {
 
             const dataStudents = {
                 meta: {
-                    status: 200,
-                    URL: '/students/create',
-                    message: studentsCreate != null? 'El alumno fue creado con exito': 'Hubo un error al crear el alumno'
+                    status: 201,
+                    URL: '/students/create'
                 },
                 data: studentsCreate
             }
 
-            return res.status(200).json(dataStudents)
+            return res.status(201).json(dataStudents)
 
         } catch (error) {
             console.error('Error creating student:', error)
-            res.status(500).json({error: 'Server error'})
+            return res.status(500).json({error: 'Server error'})
         }
     },
 
@@ -119,40 +153,32 @@ const studentsControllers = {
 
                  const dataStudents = {
                 meta: {
-                    status: 200,
+                    status: 202,
                     URL: '/students/update/:id',
                 },
                 data: studentUpdate
             }
 
-            return res.status(200).json(dataStudents)
+            return res.status(202).json(dataStudents)
 
             }
            
         } catch (error) {
             console.error('Error updating: ', error)
-            res.status(500).json({ error: "Server error" })
+            return res.status(500).json({ error: "Server error" })
         }
     },
 
     delete: async (req, res) => {
         try {
+
+            const {id} = req.params;
+
             const studentsDelete = await Students.destroy({
-                where: {
-                    id: req.params.id
-                }
+                where: {id}
             });
     
-            const dataStudents = {
-                meta: {
-                    status: 200,
-                    URL: '/students/delete/:id',
-                    message: studentsDelete != 0 ? 'El alumno fue eliminado con éxito' : 'El alumno que quiere eliminar no existe'
-                },
-                data: studentsDelete
-            };
-    
-            return res.status(200).json(dataStudents);
+            return res.status(204).json(studentsDelete);
     
         } catch (error) {
             console.error('Error deleting student:', error);

@@ -52,7 +52,7 @@ module.exports = (sequelize, dataTypes)=>{
     Student.associate = function(models){
         Student.belongsTo(models.Courses,{
             as: "course",
-            foreingKey: "id_course"
+            foreignKey: "id_course"
         })
     
         Student.belongsToMany(models.Subjects,{
@@ -71,8 +71,8 @@ module.exports = (sequelize, dataTypes)=>{
             timestamps: false,
             onDelete: 'CASCADE'
         })    
-    
+    }
         return Student
-}} 
+} 
 
 

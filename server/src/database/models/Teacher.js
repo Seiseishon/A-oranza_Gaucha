@@ -53,7 +53,8 @@ module.exports = (sequelize, dataTypes)=>{
             foreignKey: "id_teacher",
             otherKey: "id_course",
             timestamps: false,
-            onDelete: 'CASCADE'
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
         })
         Teacher.belongsToMany(models.Subjects,{
             as: "subjects",
@@ -61,7 +62,8 @@ module.exports = (sequelize, dataTypes)=>{
             foreignKey: "id_teacher",
             otherKey: "id_subject",
             timestamps: false,
-            onDelete: 'CASCADE'
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
         })
     }
 

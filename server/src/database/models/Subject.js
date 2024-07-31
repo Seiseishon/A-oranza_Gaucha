@@ -25,7 +25,7 @@ module.exports = (sequelize, dataTypes)=>{
         Subject.belongsToMany(models.Courses,{
                 as: "courses",
                 through: "courses_subjects",
-                foreingKey: "id_subject",
+                foreignKey: "id_subject",
                 otherKey: "id_course",
                 timestamps: false,
                 onDelete: 'CASCADE'
@@ -55,6 +55,6 @@ module.exports = (sequelize, dataTypes)=>{
                 onDelete: 'CASCADE'
             })
     
-
+        }
         return Subject
-}}
+}

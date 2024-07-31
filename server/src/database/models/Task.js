@@ -30,9 +30,6 @@ module.exports = (sequelize, dataTypes)=>{
             timestamps: false,
             onDelete: 'CASCADE'
         })
-    }
-
-        Task.associate = function(models){
         Task.belongsToMany(models.Students,{
                 as: "students",
                 through: "students_tasks",
@@ -40,7 +37,7 @@ module.exports = (sequelize, dataTypes)=>{
                 otherKey: "id_student",
                 timestamps: false,
                 onDelete: 'CASCADE'
-        })}
-
+        })
+    }
         return Task
 }
